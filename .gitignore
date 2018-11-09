@@ -1,0 +1,17 @@
+# Python env
+env/
+
+# Mac
+.DS_Store
+
+# Editor specific
+.vscode/
+
+# Generated files
+encrypt.p7
+sign.p7
+se.p7
+
+# Pseudo random number seed data
+randpool.dat
+
