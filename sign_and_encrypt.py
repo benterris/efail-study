@@ -8,6 +8,8 @@ with open('message.txt') as f:
 def makebuf(text):
     return BIO.MemoryBuffer(bytes(text, 'utf-8'))
 
+# ------------ SIGN
+
 
 # Make a MemoryBuffer of the message.
 buf = makebuf(message)
@@ -15,14 +17,21 @@ buf = makebuf(message)
 # Seed the PRNG.
 Rand.load_file('randpool.dat', -1)
 
-# Instantiate an SMIME object.
+# Instantiate an SMIME object; set it up; sign the buffer.
 s = SMIME.SMIME()
-
-# Load signer's key and cert. Sign the buffer.
 s.load_key('sample_keys/signer_key.pem', 'sample_keys/signer.pem')
 p7 = s.sign(buf, SMIME.PKCS7_DETACHED)
 
-# Load target cert to encrypt the signed message to.
+# Recreate buf.
+buf = makebuf(message)
+
+# Output p7 in mail-friendly format.
+out = BIO.MemoryBuffer()
+s.write(out, p7, buf)
+
+# ------------ ENCRYPT
+
+# Load target cert to encrypt to.
 x509 = X509.load_cert('sample_keys/recipient.pem')
 sk = X509.X509_Stack()
 sk.push(x509)
@@ -31,27 +40,23 @@ s.set_x509_stack(sk)
 # Set cipher: 3-key triple-DES in CBC mode.
 s.set_cipher(SMIME.Cipher('des_ede3_cbc'))
 
-# Create a temporary buffer.
-tmp = BIO.MemoryBuffer()
-
-# Write the signed message into the temporary buffer.
-s.write(tmp, p7, buf)
-
-# Encrypt the temporary buffer.
-p7 = s.encrypt(tmp)
+# Encrypt the buffer.
+p7 = s.encrypt(out)
 
 # Output p7 in mail-friendly format.
-out = BIO.MemoryBuffer()
-out.write('From: sender@example.dom\n')
-out.write('To: recipient@example.dom\n')
-out.write('Subject: M2Crypto S/MIME testing\n')
-s.write(out, p7)
+encOut = BIO.MemoryBuffer()
+encOut.write('From: sender@example.dom\n')
+encOut.write('To: recipient@example.dom\n')
+encOut.write('Subject: M2Crypto S/MIME testing\n')
+s.write(encOut, p7)
 
-stringMessage = str(out.read(), 'utf-8')
-print(stringMessage)
 
+stringES = str(encOut.read(), 'utf-8')
+print(stringES)
+
+# Write the signed and encrypted email to se.p7
 with open('se.p7', 'w') as outf:
-    outf.write(stringMessage)
+    outf.write(stringES)
 
 # Save the PRNG's state.
 Rand.save_file('randpool.dat')
