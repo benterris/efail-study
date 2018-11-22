@@ -12,6 +12,7 @@ encrypt.p7
 sign.p7
 se.p7
 dv_message.txt
+email_with_exfiltration_channel.txt
 
 # Pseudo random number seed data
 randpool.dat
