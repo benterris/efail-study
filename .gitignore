@@ -16,3 +16,5 @@ dv_message.txt
 # Pseudo random number seed data
 randpool.dat
 
+#server
+server/node_modules/*
