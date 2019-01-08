@@ -12,10 +12,9 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const interceptor = (req, res, next) => {
+app.use("/", (req, res, next) => {
   console.log(req.originalUrl);
-};
-app.use("/", interceptor());
+});
 
 
 // app.get("/content/:content", (req, res, next) => { // eslint-disable-line
