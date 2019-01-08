@@ -30,8 +30,8 @@ app.get("/content/:content", (req, res, next) => { // eslint-disable-line
     const mailOptions = {
       from: "acristhebestman@gmail.com", // sender address
       to: "pmnet@free.fr", // list of receivers
-      subject: "Hello", // Subject line
-      text: "heyhey", // plain text body
+      subject: "Voici le contenu", // Subject line
+      text: "req.params.content", // plain text body
       html: "<b>Hello world?</b>" // html body
     };
 
