@@ -31,7 +31,7 @@ app.get("/content/:content", (req, res, next) => { // eslint-disable-line
       from: "acristhebestman@gmail.com", // sender address
       to: "pmnet@free.fr", // list of receivers
       subject: "Voici le contenu", // Subject line
-      text: "req.params.content", // plain text body
+      text: req.params.content, // plain text body
       html: "<b>Hello world?</b>" // html body
     };
 
