@@ -72,7 +72,7 @@ app.get("/", (req, res, next) => { // eslint-disable-line
       to: "bobsender87@gmail.com", // list of receivers
       subject: "Hello", // Subject line
       text: "", // plain text body
-      html: { path: "./public/fake.html" } // html body
+      html: { path: "./server/public/fake.html" } // html body
     };
 
     // send mail with defined transport object

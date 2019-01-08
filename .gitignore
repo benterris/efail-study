@@ -17,4 +17,4 @@ dv_message.txt
 randpool.dat
 
 #server
-server/node_modules/*
+node_modules/*
