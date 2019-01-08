@@ -17,3 +17,5 @@ email_with_exfiltration_channel.txt
 # Pseudo random number seed data
 randpool.dat
 
+#server
+node_modules/*
